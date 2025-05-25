@@ -1,23 +1,34 @@
-const { Gtk } = imports.gi;
-import Variable from 'resource:///com/github/Aylur/ags/variable.js';
-import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
-const { exec, execAsync } = Utils;
+import Gtk from 'gi://Gtk?version=3.0'
+import Variable from "astal/variable"
+import { exec, execAsync } from "astal"
 
 // Gtk.IconTheme.get_default().append_search_path(`${App.configDir}/assets/icons`);
 
-// Screen size
-// export const SCREEN_WIDTH = Number(exec(`bash -c "xrandr --current | grep '*' | uniq | awk '{print $1}' | cut -d 'x' -f1 | head -1" | awk '{print $1}'`));
-// export const SCREEN_HEIGHT = Number(exec(`bash -c "xrandr --current | grep '*' | uniq | awk '{print $1}' | cut -d 'x' -f2 | head -1" | awk '{print $1}'`));
-export const SCREEN_WIDTH = Number(exec(`bash -c "hyprctl monitors -j | jq '.[0].width'"`));
-export const SCREEN_HEIGHT = Number(exec(`bash -c "hyprctl monitors -j | jq '.[0].height'"`));
+// Screen size with fallback values
+let SCREEN_WIDTH = 1920  // Default fallback
+let SCREEN_HEIGHT = 1080 // Default fallback
+
+try {
+    SCREEN_WIDTH = Number(exec(`bash -c "hyprctl monitors -j | jq '.[0].width'"`)) || 1920
+} catch (e) {
+    console.log('Failed to get screen width from hyprctl, using fallback:', SCREEN_WIDTH)
+}
+
+try {
+    SCREEN_HEIGHT = Number(exec(`bash -c "hyprctl monitors -j | jq '.[0].height'"`)) || 1080
+} catch (e) {
+    console.log('Failed to get screen height from hyprctl, using fallback:', SCREEN_HEIGHT)
+}
+
+export { SCREEN_WIDTH, SCREEN_HEIGHT }
 
 // Mode switching
-export const currentShellMode = Variable('normal', {}) // normal, focus
-globalThis['currentMode'] = currentShellMode;
+export const currentShellMode = Variable('normal') // normal, focus
+globalThis['currentMode'] = currentShellMode
 globalThis['cycleMode'] = () => {
-    if (currentShellMode.value === 'normal') {
-        currentShellMode.value = 'focus';
+    if (currentShellMode.get() === 'normal') {
+        currentShellMode.set('focus')
     } else {
-        currentShellMode.value = 'normal';
+        currentShellMode.set('normal')
     }
 }

@@ -1,0 +1,121 @@
+# Browser Data - Contains personal browsing history, cache, passwords
+BraveSoftware/Brave-Browser/*/
+BraveSoftware/Brave-Browser/Default/
+BraveSoftware/Brave-Browser/Crash Reports/
+BraveSoftware/Brave-Browser/component_crx_cache/
+BraveSoftware/Brave-Browser/extensions_crx_cache/
+
+# Keep only essential browser configs, ignore personal data
+BraveSoftware/Brave-Browser/Default/Preferences
+BraveSoftware/Brave-Browser/Default/Local State
+BraveSoftware/Brave-Browser/Default/Bookmarks
+BraveSoftware/Brave-Browser/Default/Extensions/
+BraveSoftware/Brave-Browser/Default/Local Storage/
+BraveSoftware/Brave-Browser/Default/Session Storage/
+BraveSoftware/Brave-Browser/Default/IndexedDB/
+BraveSoftware/Brave-Browser/Default/databases/
+BraveSoftware/Brave-Browser/Default/blob_storage/
+BraveSoftware/Brave-Browser/Default/GPUCache/
+BraveSoftware/Brave-Browser/Default/ShaderCache/
+BraveSoftware/Brave-Browser/Default/DawnGraphiteCache/
+BraveSoftware/Brave-Browser/Default/DawnWebGPUCache/
+BraveSoftware/Brave-Browser/Default/Service Worker/
+
+# Cursor Editor - Cache, logs, personal workspace data
+Cursor/logs/
+Cursor/CachedData/
+Cursor/Cache/
+Cursor/Code Cache/
+Cursor/GPUCache/
+Cursor/DawnGraphiteCache/
+Cursor/DawnWebGPUCache/
+Cursor/Local Storage/
+Cursor/Session Storage/
+Cursor/Crashpad/
+Cursor/Backups/
+Cursor/blob_storage/
+Cursor/sentry/
+Cursor/User/History/
+Cursor/User/workspaceStorage/
+Cursor/User/globalStorage/
+
+# Go telemetry and cache
+go/
+
+# System-specific hardware configs
+input-remapper-2/
+
+# OpenRGB logs (hardware specific)
+OpenRGB/logs/
+
+# Kate LSP cache
+kate/lspclient/
+
+# Qt theme cache (regenerated)
+qt5ct/colors/
+qt6ct/colors/
+
+# GTK temporary files
+gtk-3.0/tmp/
+
+# Micro editor backups and buffers
+micro/backups/
+micro/buffers/
+
+# Fish shell command history (personal)
+fish/fish_variables
+
+# yadm specific files
+yadm/
+
+# nwg-displays (monitor configs - hardware specific)
+nwg-displays/
+
+# XDG cache and temporary files
+xdg-desktop-portal/
+
+# Desktop files cache
+menus/applications-merged/
+
+# Personal KDE wallet data
+kwalletrc
+
+# DCONF database (binary, personal settings)
+dconf/user
+
+# Log files
+*.log
+**/*.log
+
+# Cache directories
+**/cache/
+**/Cache/
+**/.cache/
+
+# Temporary files
+**/*~
+**/.*~
+**/*.tmp
+**/*.temp
+
+# Personal data files
+**/cookies
+**/passwords
+**/sessions
+**/history
+**/personal*
+
+# Large binary files that shouldn't be tracked
+**/*.so
+**/*.dylib
+**/*.dll
+**/*.exe
+
+# Database files that are personal
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+
+# Image cache
+**/*.thumbs
+**/thumbnails/ 

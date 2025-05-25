@@ -1,4 +1,5 @@
-const { Gtk } = imports.gi;
+import Gtk from 'gi://Gtk?version=3.0'
+import userOptions from '../.configuration/user_options.js'
 
 export function iconExists(iconName) {
     let iconTheme = Gtk.IconTheme.get_default();

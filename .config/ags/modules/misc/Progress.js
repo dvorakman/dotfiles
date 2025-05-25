@@ -1,5 +1,5 @@
-import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
+import { Widget } from "astal/gtk3"
+import { timeout } from "astal"
 
 /** @param {import('types/widgets/box').BoxProps & {
  *      width: number
@@ -51,7 +51,7 @@ export default ({
             const step = goal / frames;
 
             for (let i = 0; i < frames; ++i) {
-                Utils.timeout(5 * i, () => {
+                timeout(5 * i, () => {
                     fill_size += step;
                     fill.setCss(`min-${axis}: ${fill_size}px`);
                 });

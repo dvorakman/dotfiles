@@ -1,7 +1,4 @@
-import App from 'resource:///com/github/Aylur/ags/app.js';
-import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-const { Box, Window } = Widget;
-
+import { App } from "astal/gtk3"
 
 export default ({
     name,
@@ -10,23 +7,35 @@ export default ({
     hideClassName = "",
     ...props
 }) => {
-    return Window({
-        name,
-        visible: false,
-        layer: 'overlay',
-        ...props,
-
-        child: Box({
-            setup: (self) => {
-                self.hook(App, (self, currentName, visible) => {
-                    if (currentName === name) {
-                        self.toggleClassName(hideClassName, !visible);
-                    }
-                }).keybind("Escape", () => App.closeWindow(name))
-                if (showClassName !== "" && hideClassName !== "")
-                    self.className = `${showClassName} ${hideClassName}`;
-            },
-            child: child,
-        }),
-    });
+    return (
+        <window
+            name={name}
+            visible={false}
+            layer="overlay"
+            application={App}
+            {...props}
+        >
+            <box
+                setup={(self) => {
+                    self.hook(App, (self, currentName, visible) => {
+                        if (currentName === name) {
+                            self.toggleClassName(hideClassName, !visible)
+                        }
+                    })
+                    // Note: keybind functionality needs to be reimplemented in AGS v2
+                    // using onKeyPressEvent signal handler
+                    self.connect("key-press-event", (widget, event) => {
+                        const keyval = event.get_keyval()[1]
+                        if (keyval === 65307) { // Escape key
+                            App.get_window(name)?.set_visible(false)
+                        }
+                    })
+                    if (showClassName !== "" && hideClassName !== "")
+                        self.className = `${showClassName} ${hideClassName}`
+                }}
+            >
+                {child}
+            </box>
+        </window>
+    )
 }

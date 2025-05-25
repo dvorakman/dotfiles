@@ -1,10 +1,9 @@
-const { Gtk } = imports.gi;
-import App from 'resource:///com/github/Aylur/ags/app.js';
-import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
-const { execAsync, exec } = Utils;
-import { searchItem } from './searchitem.js';
-import { execAndClose, couldBeMath, launchCustomCommand } from './miscfunctions.js';
+import Gtk from 'gi://Gtk?version=3.0'
+import { App, Widget } from "astal/gtk3"
+import { execAsync, exec } from "astal"
+import userOptions from '../.configuration/user_options.js'
+import { searchItem } from './searchitem.js'
+import { execAndClose, couldBeMath, launchCustomCommand } from './miscfunctions.js'
 
 export const DirectoryButton = ({ parentPath, name, type, icon }) => {
     const actionText = Widget.Revealer({
@@ -15,18 +14,18 @@ export const DirectoryButton = ({ parentPath, name, type, icon }) => {
             className: 'overview-search-results-txt txt txt-small txt-action',
             label: 'Open',
         })
-    });
+    })
     const actionTextRevealer = Widget.Revealer({
         revealChild: false,
         transition: "slide_left",
         transitionDuration: userOptions.animations.durationSmall,
         child: actionText,
-    });
+    })
     return Widget.Button({
         className: 'overview-search-result-btn',
         onClicked: () => {
-            App.closeWindow('overview');
-            execAsync(['bash', '-c', `xdg-open '${parentPath}/${name}'`, `&`]).catch(print);
+            App.get_window('overview')?.set_visible(false)
+            execAsync(['bash', '-c', `xdg-open '${parentPath}/${name}'`, `&`]).catch(print)
         },
         child: Widget.Box({
             children: [
@@ -52,12 +51,12 @@ export const DirectoryButton = ({ parentPath, name, type, icon }) => {
         }),
         setup: (self) => self
             .on('focus-in-event', (button) => {
-                actionText.revealChild = true;
-                actionTextRevealer.revealChild = true;
+                actionText.revealChild = true
+                actionTextRevealer.revealChild = true
             })
             .on('focus-out-event', (button) => {
-                actionText.revealChild = false;
-                actionTextRevealer.revealChild = false;
+                actionText.revealChild = false
+                actionTextRevealer.revealChild = false
             })
         ,
     })
@@ -69,10 +68,10 @@ export const CalculationResultButton = ({ result, text }) => searchItem({
     actionName: "Copy",
     content: `${result}`,
     onActivate: () => {
-        App.closeWindow('overview');
-        execAsync(['wl-copy', `${result}`]).catch(print);
+        App.get_window('overview')?.set_visible(false)
+        execAsync(['wl-copy', `${result}`]).catch(print)
     },
-});
+})
 
 export const DesktopEntryButton = (app) => {
     const actionText = Widget.Revealer({
@@ -83,18 +82,19 @@ export const DesktopEntryButton = (app) => {
             className: 'overview-search-results-txt txt txt-small txt-action',
             label: 'Launch',
         })
-    });
+    })
     const actionTextRevealer = Widget.Revealer({
         revealChild: false,
         transition: "slide_left",
         transitionDuration: userOptions.animations.durationSmall,
         child: actionText,
-    });
+    })
     return Widget.Button({
         className: 'overview-search-result-btn',
         onClicked: () => {
-            App.closeWindow('overview');
-            app.launch();
+            App.get_window('overview')?.set_visible(false)
+            // Use AstalApps launch method
+            execAsync(['bash', '-c', `${app.executable} &`]).catch(print)
         },
         child: Widget.Box({
             children: [
@@ -105,7 +105,7 @@ export const DesktopEntryButton = (app) => {
                             className: 'overview-search-results-icon',
                             homogeneous: true,
                             child: Widget.Icon({
-                                icon: app.iconName,
+                                icon: app.icon_name || app.name,
                             }),
                         }),
                         Widget.Label({
@@ -120,19 +120,19 @@ export const DesktopEntryButton = (app) => {
         }),
         setup: (self) => self
             .on('focus-in-event', (button) => {
-                actionText.revealChild = true;
-                actionTextRevealer.revealChild = true;
+                actionText.revealChild = true
+                actionTextRevealer.revealChild = true
             })
             .on('focus-out-event', (button) => {
-                actionText.revealChild = false;
-                actionTextRevealer.revealChild = false;
+                actionText.revealChild = false
+                actionTextRevealer.revealChild = false
             })
         ,
     })
 }
 
 export const ExecuteCommandButton = ({ command, terminal = false }) => searchItem({
-    materialIconName: `${terminal ? 'terminal' : ' '}`,
+    materialIconName: `${terminal ? 'terminal' : ' '}`,
     name: `Run command`,
     actionName: `Execute ${terminal ? 'in terminal' : ''}`,
     content: `${command}`,
@@ -141,15 +141,15 @@ export const ExecuteCommandButton = ({ command, terminal = false }) => searchIte
 })
 
 export const CustomCommandButton = ({ text = '' }) => searchItem({
-    materialIconName: ' ',
+    materialIconName: ' ',
     name: 'Action',
     actionName: 'Run',
     content: `${text}`,
     onActivate: () => {
-        App.closeWindow('overview');
-        launchCustomCommand(text);
+        App.get_window('overview')?.set_visible(false)
+        launchCustomCommand(text)
     },
-});
+})
 
 export const SearchButton = ({ text = '' }) => searchItem({
     materialIconName: '󰜏 ',
@@ -157,7 +157,7 @@ export const SearchButton = ({ text = '' }) => searchItem({
     actionName: 'Go',
     content: `${text}`,
     onActivate: () => {
-        App.closeWindow('overview');
-        execAsync(['bash', '-c', `xdg-open '${userOptions.search.engineBaseUrl}${text} ${['', ...userOptions.search.excludedSites].join(' -site:')}' &`]).catch(print);
+        App.get_window('overview')?.set_visible(false)
+        execAsync(['bash', '-c', `xdg-open '${userOptions.search.engineBaseUrl}${text} ${['', ...userOptions.search.excludedSites].join(' -site:')}' &`]).catch(print)
     },
-});
+})

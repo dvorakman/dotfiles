@@ -1,4 +1,5 @@
-import Widget from 'resource:///com/github/Aylur/ags/widget.js';
+import { Widget } from "astal/gtk3"
+import userOptions from '../.configuration/user_options.js'
 
 export const searchItem = ({ materialIconName, name, actionName, content, onActivate, extraClassName = '', ...rest }) => {
     const actionText = Widget.Revealer({

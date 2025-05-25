@@ -2,16 +2,17 @@
 // - Make client destroy/create not destroy and recreate the whole thing
 // - Active ws hook optimization: only update when moving to next group
 //
-const { Gdk, Gtk } = imports.gi;
-const { Gravity } = imports.gi.Gdk;
+import Gdk from 'gi://Gdk'
+import Gtk from 'gi://Gtk?version=3.0'
+const { Gravity } = Gdk;
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../variables.js';
-import App from 'resource:///com/github/Aylur/ags/app.js';
-import Variable from 'resource:///com/github/Aylur/ags/variable.js';
-import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
+import { App, Widget } from "astal/gtk3"
+import Variable from "astal/variable"
+import { execAsync, exec, timeout } from "astal"
 
-import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
-const { execAsync, exec } = Utils;
+// Note: Hyprland service needs to be replaced with external library in AGS v2
+// For now, we'll comment this out and handle it differently
+// import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 import { setupCursorHoverGrab } from '../.widgetutils/cursorhover.js';
 import { dumpToWorkspace, swapWorkspace } from "./actions.js";
 import { substitute } from "../.miscutils/icons.js";
@@ -20,7 +21,7 @@ const NUM_OF_WORKSPACES_SHOWN = userOptions.overview.numOfCols * userOptions.ove
 const TARGET = [Gtk.TargetEntry.new('text/plain', Gtk.TargetFlags.SAME_APP, 0)];
 const POPUP_CLOSE_TIME = 100; // ms
 
-const overviewTick = Variable(false);
+const overviewTick = Variable(false)
 
 export default () => {
     const clientMap = new Map();

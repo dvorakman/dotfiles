@@ -8,6 +8,7 @@ polkit=(
   "/usr/libexec/polkit-gnome-authentication-agent-1"
   "/usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1"
   "/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1"
+  "/usr/lib/hyprpolkitagent/hyprpolkitagent"
 )
 
 executed=false  # Flag to track if a file has been executed

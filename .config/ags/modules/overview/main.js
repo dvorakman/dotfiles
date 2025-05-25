@@ -1,6 +1,5 @@
-import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import { SearchAndWindows } from "./windowcontent.js";
-import PopupWindow from '../.widgethacks/popupwindow.js';
+import { SearchAndWindows } from "./windowcontent.js"
+import PopupWindow from '../.widgethacks/popupwindow.js'
 
 export default (id = '') => PopupWindow({
     name: `overview${id}`,
@@ -9,10 +8,9 @@ export default (id = '') => PopupWindow({
     visible: false,
     // anchor: ['middle'],
     layer: 'overlay',
-    child: Widget.Box({
-        vertical: true,
-        children: [
-            SearchAndWindows(),
-        ]
-    }),
+    child: (
+        <box vertical={true}>
+            <SearchAndWindows />
+        </box>
+    ),
 })
